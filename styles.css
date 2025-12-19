@@ -22,6 +22,7 @@ body {
     line-height: 1.6;
     scroll-behavior: smooth;
     background: linear-gradient(180deg, var(--secondary-color) 0%, #0a0a1a 100%);
+    overflow-x: hidden; /* Prevents side-scrolling on mobile */
 }
 
 /* -------------------- Navigation Bar -------------------- */
@@ -66,7 +67,16 @@ body {
     background-color: var(--nav-active-bg);
 }
 
-/* -------------------- Hero Section (index.html) -------------------- */
+/* Mobile Toggle Icon - Hidden on Desktop */
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* -------------------- Hero Section -------------------- */
 .hero-new-style {
     min-height: 90vh;
     display: flex;
@@ -138,7 +148,7 @@ body {
     line-height: 1.7;
 }
 
-/* -------------------- Social Links -------------------- */
+/* -------------------- Social Links & Buttons -------------------- */
 .social-links {
     display: flex;
     justify-content: center;
@@ -155,7 +165,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    transition: all 0.3s;
     border: 1px solid var(--text-color-secondary); 
 }
 
@@ -166,13 +176,13 @@ body {
     border-color: var(--primary-color);
 }
 
-/* -------------------- Buttons (Reused for download CV) -------------------- */
 .btn {
     text-decoration: none;
     padding: 12px 25px;
     border-radius: 5px;
     font-weight: 600;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: all 0.3s;
+    display: inline-block;
 }
 
 .primary-btn {
@@ -182,21 +192,16 @@ body {
 }
 
 .primary-btn:hover {
-    background-color: #0056b3;
+    background-color: transparent;
+    color: var(--primary-color);
     transform: translateY(-2px);
 }
 
-.download-btn {
-    display: inline-block;
-    margin-top: 20px;
-}
-
-/* -------------------- About Me Section Styles (about.html) -------------------- */
+/* -------------------- About Section -------------------- */
 .about-me-section {
     padding: 80px 5%;
     max-width: 1200px;
     margin: 0 auto;
-    min-height: 80vh; 
 }
 
 .about-me-section h2 {
@@ -204,7 +209,6 @@ body {
     color: var(--highlight-color); 
     text-align: center;
     margin-bottom: 50px;
-    padding-top: 50px; 
 }
 
 .about-content {
@@ -213,15 +217,8 @@ body {
     align-items: flex-start;
 }
 
-.bio-text {
-    flex: 2; 
-}
-
-.bio-text p {
-    margin-bottom: 15px;
-    font-size: 1.05rem;
-    color: var(--text-color-secondary);
-}
+.bio-text { flex: 2; }
+.bio-text p { margin-bottom: 15px; color: var(--text-color-secondary); }
 
 .profile-summary {
     flex: 1; 
@@ -229,51 +226,57 @@ body {
     background-color: #1f1f3a; 
     border-radius: 10px;
     border-left: 5px solid var(--primary-color);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.profile-summary h3 {
-    color: var(--highlight-color);
-    margin-bottom: 15px;
-    font-weight: 600;
-}
+.profile-summary ul { list-style: none; }
+.profile-summary ul li { margin-bottom: 10px; font-size: 0.95rem; }
 
-.profile-summary ul {
-    list-style: none;
-}
+/* -------------------- RESPONSIVENESS -------------------- */
+@media (max-width: 768px) {
+    /* Hamburger Menu Toggle */
+    .menu-toggle {
+        display: block;
+    }
 
-.profile-summary ul li {
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-    color: var(--text-color);
-}
-
-/* -------------------- Responsiveness -------------------- */
-@media (max-width: 900px) {
+    /* Transform Nav into Mobile Sidebar */
     .navbar nav {
-        display: none; 
-    }
-    
-    /* Hero section adjustments */
-    .hero-new-style {
-        min-height: 60vh;
-    }
-    .title {
-        font-size: 2rem;
-    }
-    .hero-gradient-bar {
-        height: 120px;
-        top: -80px;
-        width: 100%;
-        max-width: 450px;
+        position: fixed;
+        right: -100%;
+        top: 0;
+        height: 100vh;
+        width: 70%;
+        background-color: #0f0f1f;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.4s ease-in-out;
+        box-shadow: -10px 0 20px rgba(0,0,0,0.5);
     }
 
-    /* About page adjustments */
-    .about-content {
-        flex-direction: column; 
+    .navbar nav.active {
+        right: 0;
     }
+
+    .navbar nav a {
+        margin: 15px 0;
+        font-size: 1.2rem;
+        width: 80%;
+        text-align: center;
+    }
+
+    /* Hero Scaling */
+    .title { font-size: 2.1rem; }
+    .hero-gradient-bar { height: 100px; top: -60px; }
+    .profile-image { width: 100px; height: 100px; }
+
+    /* About Section Scaling */
+    .about-content {
+        flex-direction: column;
+    }
+
     .profile-summary {
+        order: -1; /* Shows summary above bio on mobile */
         width: 100%;
-        margin-top: 30px;
     }
 }
